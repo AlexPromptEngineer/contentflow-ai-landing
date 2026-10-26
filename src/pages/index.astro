@@ -1,0 +1,217 @@
+---
+import landing from "../content/landing.json";
+import RequestForm from "../components/RequestForm.astro";
+import { readLandingContent } from "../types/landing";
+import "../styles/global.css";
+
+const content = readLandingContent(landing);
+const { hero, useCases, editorialFiltering, workflow, foreignSources, publishing, trial, faq, contact, footer } = content;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={footer.description} />
+    <title>{footer.title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">К основному содержимому</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#hero" aria-label={footer.title}>
+          <span>{footer.title}</span>
+        </a>
+        <nav class="desktop-nav" aria-label="Основная навигация">
+          <a href="#useCases">{useCases.title}</a>
+          <a href="#workflow">{workflow.title}</a>
+          <a href="#faq">{faq.title}</a>
+          <a class="nav-cta" href="#contact" data-interest="trial">{hero.actions.trial}</a>
+        </nav>
+        <details class="mobile-menu">
+          <summary aria-label="Меню"><span></span><span></span><span></span></summary>
+          <nav aria-label="Мобильная навигация">
+            <a href="#useCases">{useCases.title}</a>
+            <a href="#workflow">{workflow.title}</a>
+            <a href="#faq">{faq.title}</a>
+            <a href="#contact" data-interest="trial">{hero.actions.trial}</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="hero" class="section hero">
+        <div class="container hero-layout">
+          <div class="hero-copy">
+            <h1>{hero.title}</h1>
+            <div class="hero-lead">
+              {hero.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+            <div class="actions">
+              <a class="button button-primary" href="#contact" data-interest="trial">{hero.actions.trial}<span class="button-arrow" aria-hidden="true">↗</span></a>
+              <a class="button button-outline" href="#contact" data-interest="demo">{hero.actions.demo}</a>
+            </div>
+          </div>
+          <div class="hero-projects">
+            {hero.projects.map((project) => (
+              <article class="hero-project-card">
+                <h2>{project.title}</h2>
+                <p>{project.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="useCases" class="section use-cases">
+        <div class="container">
+          <div class="section-heading"><h2>{useCases.title}</h2></div>
+          <div class="use-case-grid">
+            {useCases.items.map((item, index) => (
+              <article class="use-case-card">
+                <span class="card-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="editorialFiltering" class="section section-soft editorial-section">
+        <div class="container editorial-layout">
+          <div class="editorial-copy">
+            <h2>{editorialFiltering.title}</h2>
+            {editorialFiltering.paragraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <div class="editorial-example">
+            <div class="accent-rule" aria-hidden="true"></div>
+            <p>{editorialFiltering.paragraphs[2]}</p>
+          </div>
+          <div class="reserved-screenshot" hidden data-screenshot="editorialFiltering"></div>
+        </div>
+      </section>
+
+      <section id="workflow" class="section workflow-section">
+        <div class="container">
+          <div class="section-heading"><h2>{workflow.title}</h2></div>
+          <ol class="workflow-grid">
+            {workflow.steps.map((step) => (
+              <li class="workflow-step">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="foreignSources" class="section foreign-section">
+        <div class="container foreign-layout">
+          <div class="foreign-copy">
+            <h2>{foreignSources.title}</h2>
+            {foreignSources.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <article class="example-card workman-card">
+            <div class="accent-rule" aria-hidden="true"></div>
+            <h3>{foreignSources.subtitle}</h3>
+            <p>{foreignSources.example}</p>
+            <p>{foreignSources.result}</p>
+          </article>
+          <div class="reserved-screenshot" hidden data-screenshot="foreignSources"></div>
+        </div>
+      </section>
+
+      <section id="publishing" class="section section-soft publishing-section">
+        <div class="container publishing-layout">
+          <div class="publishing-copy">
+            <h2>{publishing.title}</h2>
+            {publishing.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            <p class="future-note">{publishing.future}</p>
+          </div>
+          <article class="example-card publishing-example">
+            <div class="accent-rule" aria-hidden="true"></div>
+            <h3>{publishing.subtitle}</h3>
+            <p>{publishing.example}</p>
+            <p>{publishing.closing}</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="trial" class="section trial-section">
+        <div class="container trial-panel">
+          <div class="trial-main">
+            <h2>{trial.title}</h2>
+            <p class="trial-description">{trial.description}</p>
+            <p>{trial.intro}</p>
+            <ul class="benefit-list">{trial.benefits.map((benefit) => <li>{benefit}</li>)}</ul>
+            <a class="button button-light" href="#contact" data-interest="trial">{trial.action}<span class="button-arrow" aria-hidden="true">↗</span></a>
+            <p class="trial-note">{trial.note}</p>
+          </div>
+          <aside class="trial-help">
+            <div class="accent-rule" aria-hidden="true"></div>
+            <h3>{trial.subtitle}</h3>
+            <p>{trial.help}</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="faq" class="section faq-section">
+        <div class="container faq-layout">
+          <div class="section-heading"><h2>{faq.title}</h2></div>
+          <div class="faq-list">
+            {faq.items.map((item) => (
+              <details>
+                <summary>{item.question}</summary>
+                <div class="faq-answer">{item.answer.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="container contact-layout">
+          <div class="contact-intro">
+            <h2>{contact.title}</h2>
+            <p>{contact.description}</p>
+            <p class="contact-accent">{contact.accent}</p>
+          </div>
+          <RequestForm content={contact.form} />
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer" class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <a class="brand footer-brand" href="#hero"><span>{footer.title}</span></a>
+          <p>{footer.description}</p>
+        </div>
+        <nav aria-label="Навигация в подвале">
+          <a href="#useCases">{useCases.title}</a>
+          <a href="#faq">{faq.title}</a>
+          <a href="#contact">{hero.actions.trial}</a>
+        </nav>
+        <p class="copyright">{footer.copyright}</p>
+      </div>
+    </footer>
+    <script>
+      document.querySelectorAll<HTMLAnchorElement>("a[data-interest]").forEach((link) => {
+        link.addEventListener("click", () => {
+          const interest = link.dataset.interest;
+          const checkbox = document.querySelector<HTMLInputElement>(`#request-form input[name="interest"][value="${interest}"]`);
+          if (checkbox) checkbox.checked = true;
+        });
+      });
+      document.querySelectorAll<HTMLAnchorElement>(".mobile-menu nav a").forEach((link) => {
+        link.addEventListener("click", () => link.closest<HTMLDetailsElement>("details")?.removeAttribute("open"));
+      });
+      document.querySelector<HTMLFormElement>("#request-form")?.addEventListener("submit", (event) => event.preventDefault());
+    </script>
+  </body>
+</html>
+
+

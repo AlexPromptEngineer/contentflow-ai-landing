@@ -1,0 +1,54 @@
+---
+import type { FormContent } from "../types/landing";
+
+interface Props { content: FormContent }
+const { content } = Astro.props;
+---
+
+<form class="request-form" id="request-form" data-form-status="unavailable" aria-describedby="form-availability">
+  <p class="development-notice" id="form-availability" role="status">Форма в разработке: отправка заявки пока не подключена.</p>
+
+  <div class="field">
+    <label for="request-name">{content.nameLabel}</label>
+    <input id="request-name" name="name" type="text" autocomplete="name" />
+  </div>
+
+  <fieldset class="interest-group" aria-describedby="interest-note">
+    <legend>{content.interestLabel}</legend>
+    <div class="interest-options">
+      <label class="interest-option"><input type="checkbox" name="interest" value="trial" /><span>{content.interests[0]}</span></label>
+      <label class="interest-option"><input type="checkbox" name="interest" value="demo" /><span>{content.interests[1]}</span></label>
+    </div>
+    <p id="interest-note" class="field-note">{content.interestNote}</p>
+  </fieldset>
+
+  <div class="demo-note">
+    {content.demoNote.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+
+  <div class="contact-fields">
+    <div class="field">
+      <label for="request-telegram">{content.contacts.telegram.label}</label>
+      <input id="request-telegram" name="telegram" type="text" autocomplete="off" placeholder={content.contacts.telegram.placeholder} />
+    </div>
+    <div class="field">
+      <label for="request-email">{content.contacts.email.label}</label>
+      <input id="request-email" name="email" type="email" autocomplete="email" placeholder={content.contacts.email.placeholder} />
+    </div>
+    <div class="field">
+      <label for="request-phone">{content.contacts.phone.label}</label>
+      <input id="request-phone" name="phone" type="tel" autocomplete="tel" placeholder={content.contacts.phone.placeholder} />
+    </div>
+  </div>
+  <p class="field-note contact-note">{content.contactNote}</p>
+
+  <div class="field topic-field">
+    <label for="request-topic">{content.topicLabel}</label>
+    <textarea id="request-topic" name="topic" rows="4" placeholder={content.topicPlaceholder}></textarea>
+  </div>
+
+  <label class="consent"><input type="checkbox" name="consent" value="yes" /><span>{content.consent}</span></label>
+  <div class="submit-row">
+    <button class="button button-primary" type="submit" disabled>{content.submit}</button>
+  </div>
+</form>
